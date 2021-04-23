@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@+id/nav_graph__list_of_tasks_fragment">
+
+    <fragment
+        android:id="@+id/nav_graph__list_of_tasks_fragment"
+        android:name="com.example.todolist.ui.fragments.ListOfTasksFragment"
+        android:label="listOfTasksFragment" >
+        <action
+            android:id="@+id/action_nav_graph__list_of_tasks_fragment_to_taskFragment"
+            app:destination="@id/nav_graf_task_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_graf_task_fragment"
+        android:name="com.example.todolist.ui.fragments.TaskFragment"
+        android:label="TaskFragment" />
+</navigation>
