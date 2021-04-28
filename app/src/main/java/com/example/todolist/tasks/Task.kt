@@ -1,6 +1,10 @@
 package com.example.todolist.tasks
 
-data class Task (
-        val name: String,
-        val description: String
-)
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class Task(
+        val name: String?,
+        val description: String?
+): Parcelable

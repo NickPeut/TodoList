@@ -35,8 +35,8 @@ class ListOfTasksFragment : Fragment(), TasksAdapter.ListItemClickListener {
 
     override fun onListItemClick(clickedItemIndex: Int) {
         val task: Task = listOfTask[clickedItemIndex]
-        findNavController().navigate(R.id.nav_graf_task_fragment)
-            
+        val action = ListOfTasksFragmentDirections.actionNavGraphListOfTasksFragmentToTaskFragment(task)
+        findNavController().navigate(action) //R.id.nav_graf_task_fragment
     }
 
 }

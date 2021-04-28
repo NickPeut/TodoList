@@ -15,5 +15,9 @@
     <fragment
         android:id="@+id/nav_graf_task_fragment"
         android:name="com.example.todolist.ui.fragments.TaskFragment"
-        android:label="TaskFragment" />
+        android:label="TaskFragment" >
+        <argument
+            android:name="Task"
+            app:argType="com.example.todolist.tasks.Task" />
+    </fragment>
 </navigation>

@@ -31,6 +31,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    1
+    apply plugin: "androidx.navigation.safeargs.kotlin"
+    apply plugin: "kotlin-parcelize"
 }
 
 dependencies {
