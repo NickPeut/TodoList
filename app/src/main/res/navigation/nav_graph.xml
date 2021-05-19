@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_nav_graph__list_of_tasks_fragment_to_taskFragment"
             app:destination="@id/nav_graf_task_fragment" />
+        <action
+            android:id="@+id/action_nav_graph__list_of_tasks_fragment_to_nav_graf_add_task_fragment"
+            app:destination="@id/nav_graf_add_task_fragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_graf_task_fragment"
@@ -20,4 +23,8 @@
             android:name="Task"
             app:argType="com.example.todolist.tasks.Task" />
     </fragment>
+    <fragment
+        android:id="@+id/nav_graf_add_task_fragment"
+        android:name="com.example.todolist.ui.fragments.AddTaskFragment"
+        android:label="AddTaskFragment" />
 </navigation>
