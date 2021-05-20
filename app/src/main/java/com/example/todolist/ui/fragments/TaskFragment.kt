@@ -21,7 +21,6 @@ class TaskFragment : Fragment() {
     private lateinit var tvName: TextView
     private lateinit var tvDescription: TextView
     private lateinit var task: Task
-
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,

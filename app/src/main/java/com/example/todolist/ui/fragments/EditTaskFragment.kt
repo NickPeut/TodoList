@@ -66,7 +66,8 @@ class EditTaskFragment : Fragment() {
                 taskED = TaskED(
                     id = id,
                     name = name,
-                    description = description
+                    description = description,
+                    isDone = false
                 )
             } else {
                 getToastAboutFillAllFields()
@@ -76,7 +77,8 @@ class EditTaskFragment : Fragment() {
             taskED = TaskED(
                 id = task!!.id,
                 name = name,
-                description = description
+                description = description,
+                isDone = task!!.isDone
             )
         }
         if (task == null) {
@@ -85,7 +87,7 @@ class EditTaskFragment : Fragment() {
         } else {
             taskHelper.updateTask(taskED)
             val action = EditTaskFragmentDirections.actionNavGrafAddTaskFragmentToNavGrafTaskFragment(
-                Task(taskED.id, taskED.name, taskED.description)
+                Task(taskED.id, taskED.name, taskED.description, taskED.isDone)
             )
             findNavController().navigate(action)
         }

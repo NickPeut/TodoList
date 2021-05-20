@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +16,7 @@ import com.example.todolist.database.TaskED
 import com.example.todolist.database.TaskService
 import com.example.todolist.tasks.Task
 import com.example.todolist.tasks.TasksAdapter
+import com.example.todolist.viewModel.TaskHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -61,6 +63,19 @@ class ListOfTasksFragment : Fragment(), TasksAdapter.ListItemClickListener {
             ListOfTasksFragmentDirections.actionNavGraphListOfTasksFragmentToTaskFragment(task)
         findNavController().navigate(action)
     }
+
+    override fun onCheckItemClick(clickedItemIndex: Int) {
+        val task: Task = listOfTask[clickedItemIndex]
+        val taskHelper: TaskHelper = ViewModelProvider(this).get(TaskHelper::class.java)
+        val taskED = TaskED(
+            id = task.id,
+            name = task.name,
+            description = task.description,
+            isDone = !task.isDone
+        )
+        taskHelper.updateTask(taskED)
+    }
+
 
     private fun toTaskView(people: List<TaskED>): List<Task> {
         return people.map {

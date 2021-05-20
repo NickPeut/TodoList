@@ -3,12 +3,14 @@ package com.example.todolist.database
 class TaskED(
     var id: String = "",
     var name: String? = null,
-    var description: String? = null
+    var description: String? = null,
+    var isDone: Boolean = false
 ) {
     class Builder private constructor() {
         private var id: String = ""
         private var name: String? = null
         private var description: String? = null
+        private var isDone: Boolean = false
 
 
         companion object {
@@ -32,6 +34,11 @@ class TaskED(
             return this
         }
 
+        fun isDone(isDone: Boolean): Builder {
+            this.isDone = isDone
+            return this
+        }
+
         fun build(): TaskED {
             return TaskED(
                 id,
@@ -50,7 +57,7 @@ class TaskED(
         if (id != other.id) return false
         if (name != other.name) return false
         if (description != other.description) return false
-
+        if (isDone != other.isDone) return false
         return true
     }
 
@@ -58,6 +65,7 @@ class TaskED(
         var result = id.hashCode()
         result = 31 * result + (name?.hashCode() ?: 0)
         result = 31 * result + (description?.hashCode() ?: 0)
+        result = 31 * result + (isDone.hashCode())
         return result
     }
 }

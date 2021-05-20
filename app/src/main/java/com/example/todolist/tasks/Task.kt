@@ -8,13 +8,14 @@ import kotlinx.parcelize.Parcelize
 data class Task(
         val id: String,
         val name: String?,
-        val description: String?
+        val description: String?,
+        var isDone: Boolean
 ): Parcelable {
         class Builder private constructor() {
                 private var id: String = ""
                 private var name: String? = null
                 private var description: String? = null
-
+                private var isDone: Boolean = false
 
                 companion object {
                         fun createBuilder(): Builder {
@@ -37,11 +38,17 @@ data class Task(
                         return this
                 }
 
+                fun isDone(isDone: Boolean): Builder {
+                        this.isDone = isDone
+                        return this
+                }
+
                 fun build(): Task {
                         return Task(
                                 id,
                                 name,
-                                description
+                                description,
+                                isDone
                         )
                 }
         }
@@ -63,6 +70,7 @@ data class Task(
                 var result = id.hashCode()
                 result = 31 * result + (name?.hashCode() ?: 0)
                 result = 31 * result + (description?.hashCode() ?: 0)
+                result = 31 * result + (isDone.hashCode())
                 return result
         }
 }

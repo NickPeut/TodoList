@@ -70,6 +70,7 @@ class ApartmentServiceTest {
             .id("1")
             .name("cat")
             .description("meow")
+            .isDone(false)
             .build()
     }
 
@@ -78,6 +79,7 @@ class ApartmentServiceTest {
             .id(oldTask.id)
             .name(oldTask.name!!)
             .description(oldTask.description!!)
+            .isDone(false)
             .build()
     }
 }
