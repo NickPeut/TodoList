@@ -3,6 +3,7 @@
     <string name="Tasks">Задачи</string>
     <string name="new_task">Новая задача</string>
     <string name="name">Название</string>
+    <string name="update">Изменить</string>
     <string name="description">Описание</string>
-    <string name="fill_name">Введите название</string>
+    <string name="fill_name">Введите другое название</string>
 </resources>

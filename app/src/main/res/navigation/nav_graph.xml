@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@+id/nav_graph__list_of_tasks_fragment">
 
@@ -18,13 +19,34 @@
     <fragment
         android:id="@+id/nav_graf_task_fragment"
         android:name="com.example.todolist.ui.fragments.TaskFragment"
-        android:label="TaskFragment" >
+        android:label="TaskFragment">
         <argument
             android:name="Task"
             app:argType="com.example.todolist.tasks.Task" />
+        <action
+            android:id="@+id/action_nav_graf_task_fragment_to_nav_graph__list_of_tasks_fragment"
+            app:destination="@id/nav_graph__list_of_tasks_fragment" />
+        <action
+            android:id="@+id/action_nav_graf_task_fragment_to_nav_graf_add_task_fragment"
+            app:destination="@id/nav_graf_add_task_fragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_graf_add_task_fragment"
-        android:name="com.example.todolist.ui.fragments.AddTaskFragment"
-        android:label="AddTaskFragment" />
+        android:name="com.example.todolist.ui.fragments.EditTaskFragment"
+        android:label="AddTaskFragment" >
+        <action
+            android:id="@+id/action_nav_graf_add_task_fragment_to_nav_graph__list_of_tasks_fragment2"
+            app:destination="@id/nav_graph__list_of_tasks_fragment" />
+        <argument
+            android:name="task"
+            app:argType="com.example.todolist.tasks.Task"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="nameMove"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_nav_graf_add_task_fragment_to_nav_graf_task_fragment"
+            app:destination="@id/nav_graf_task_fragment" />
+    </fragment>
 </navigation>

@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
 
 class TasksAdapter(
-        private val tasks: List<Task>,
-        private val listener: ListItemClickListener
+        private var tasks: List<Task>,
+        listener: ListItemClickListener
 ) : RecyclerView.Adapter<TasksAdapter.TasksViewHolder>() {
 
     private val mOnClickListener: ListItemClickListener = listener
@@ -19,7 +19,10 @@ class TasksAdapter(
         val view = LayoutInflater.from(parent.context).inflate(R.layout.task_item, parent, false)
         return TasksViewHolder(view)
     }
-
+    fun setData(listOfTasks: List<Task>) {
+        this.tasks = listOfTasks
+        notifyDataSetChanged()
+    }
     override fun onBindViewHolder(holder: TasksViewHolder, position: Int) {
         holder.bind(tasks[position])
     }

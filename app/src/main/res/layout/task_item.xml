@@ -27,6 +27,8 @@
                 android:textSize="25sp"
                 android:layout_margin="10dp"
                 android:text="nameTask"
+                android:maxLines="1"
+                android:ellipsize="end"
                 />
             <View
                 android:layout_width="match_parent"

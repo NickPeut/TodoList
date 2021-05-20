@@ -58,6 +58,13 @@ class ApartmentServiceTest {
         }
     }
 
+    @Test
+    fun showAllTasks() {
+        runBlocking {
+            val listTasks = taskService.findAll()
+            println(listTasks)
+        }
+    }
     private fun createTestTask(): TaskED {
         return TaskED.Builder.createBuilder()
             .id("1")

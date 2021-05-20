@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "888564861178",
+    "firebase_url": "https://todolist-ec1e5-default-rtdb.firebaseio.com",
     "project_id": "todolist-ec1e5",
     "storage_bucket": "todolist-ec1e5.appspot.com"
   },

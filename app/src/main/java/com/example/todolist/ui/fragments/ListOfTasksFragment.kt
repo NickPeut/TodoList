@@ -10,12 +10,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
+import com.example.todolist.database.ITaskService
+import com.example.todolist.database.TaskED
+import com.example.todolist.database.TaskService
 import com.example.todolist.tasks.Task
 import com.example.todolist.tasks.TasksAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class ListOfTasksFragment : Fragment(), TasksAdapter.ListItemClickListener {
-    private val listOfTask = generateTestTasksList()
-
+    private val personService: ITaskService = TaskService.getInstance()
+    private lateinit var listOfTask:List<Task>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,11 +36,21 @@ class ListOfTasksFragment : Fragment(), TasksAdapter.ListItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         val rvList: RecyclerView = view.findViewById(R.id.fragment_list_of_task__rv_list)
         var buttonAdd :ImageButton = view.findViewById(R.id.fragment_list_of_task__btn_add)
-        val adapter = TasksAdapter(listOfTask, this)
+        val adapter = TasksAdapter(emptyList(), this)
+        GlobalScope.launch(Dispatchers.Main) {
+            val people = async(Dispatchers.IO) {
+                personService.findAll()
+            }
+
+            listOfTask = toTaskView(people.await())
+            adapter.setData(listOfTask)
+        }
         rvList.layoutManager = LinearLayoutManager(this.context)
         rvList.adapter = adapter
         buttonAdd.setOnClickListener() {
-            findNavController().navigate(R.id.nav_graf_add_task_fragment)
+            val action =
+                ListOfTasksFragmentDirections.actionNavGraphListOfTasksFragmentToNavGrafAddTaskFragment(null,getString(R.string.new_task))
+            findNavController().navigate(action)
         }
     }
 
@@ -42,104 +59,16 @@ class ListOfTasksFragment : Fragment(), TasksAdapter.ListItemClickListener {
         val task: Task = listOfTask[clickedItemIndex]
         val action =
             ListOfTasksFragmentDirections.actionNavGraphListOfTasksFragmentToTaskFragment(task)
-        findNavController().navigate(action) //R.id.nav_graf_task_fragment
+        findNavController().navigate(action)
     }
-}
 
-private fun generateTestTasksList(): List<Task> {
-    return listOf(
-        Task(
-            "1",
-            "first task",
-            "description of first task"
-        ),
-        Task(
-            "1",
-            "second task",
-            "description of first task"
-        ),
-        Task(
-            "1",
-            "first task",
-            "description of first task"
-        ),
-        Task(
-            "1",
-            "second task",
-            "description of first task"
-        ),
-        Task(
-            "1",
-            "first task",
-            "description of first task"
-        ),
-        Task(
-            "1",
-            "second task",
-            "description of first task"
-        ),
-        Task(
-            "1",
-            "first task",
-            "description of first task"
-        ),
-        Task(
-            "1",
-            "second task",
-            "description of first task"
-        ),
-        Task(
-            "1",
-            "first task",
-            "description of first task"
-        ),
-        Task(
-            "1",
-            "second task",
-            "description of first task"
-        ),
-        Task(
-            "1",
-            "first task",
-            "description of first task"
-        ),
-        Task(
-            "1",
-            "second task",
-            "description of first task"
-        ),
-
-        Task(
-            "1",
-            "first task",
-            "description of first task"
-        ),
-        Task(
-            "1",
-            "second task",
-            "description of first task"
-        ),
-
-        Task(
-            "1",
-            "first task",
-            "description of first task"
-        ),
-        Task(
-            "1",
-            "second task",
-            "description of first task"
-        ),
-
-        Task(
-            "1",
-            "first task",
-            "description of first task"
-        ),
-        Task(
-            "1",
-            "second task",
-            "description of first task"
-        ),
-    )
+    private fun toTaskView(people: List<TaskED>): List<Task> {
+        return people.map {
+            Task.Builder.createBuilder()
+                .id(it.id)
+                .name(it.name!!)
+                .description(it.description!!)
+                .build()
+        }
+    }
 }

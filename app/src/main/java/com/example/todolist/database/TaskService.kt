@@ -15,10 +15,7 @@ class TaskService private constructor() : ITaskService {
     private val db: FirebaseFirestore = Firebase.firestore
     private val tasksCollection: CollectionReference =
         db.collection(Collections.TASKS.collectionName)
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("message");
 
-    myRef.setValue("Hello, World!");
     companion object {
         private var INSTANCE: ITaskService? = null
 
