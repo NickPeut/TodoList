@@ -27,6 +27,7 @@
                 android:maxLines="1"
                 android:ellipsize="end"
                 />
+
             <ImageButton
                 android:id="@+id/fragment_add_task__btn_save"
                 android:layout_width="70dp"
@@ -38,28 +39,51 @@
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
-
-    <EditText
-        android:id="@+id/fragment_add_task__et_name"
+    <LinearLayout
+        android:id="@+id/fragment_add_task__ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:singleLine="true"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fragment_add_task__toolbar"
-        android:hint="@string/name"
-        android:padding="20dp"
-        android:textSize="25sp"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:maxLength="14"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal"
+        android:padding="5dp">
+        <ImageButton
+            android:id="@+id/fragment_add_task__ib_check"
+            android:layout_width="match_parent"
+            android:layout_weight="6"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:src="@drawable/ic_baseline_radio_button_unchecked_24"
+            android:background="@null"
+            app:layout_constraintStart_toEndOf="@id/fragment_add_task__et_name"
+            app:layout_constraintTop_toTopOf="@id/fragment_add_task__et_name"
+            app:layout_constraintBottom_toBottomOf="@id/fragment_add_task__et_name"
+            />
+        <EditText
+            android:id="@+id/fragment_add_task__et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:singleLine="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fragment_add_task__toolbar"
+            android:hint="@string/name"
+            android:padding="20dp"
+            android:textSize="25sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:maxLength="14"
+            />
+
+
+    </LinearLayout>
 
     <EditText
         android:id="@+id/fragment_add_task__et_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fragment_add_task__et_name"
+        app:layout_constraintTop_toBottomOf="@id/fragment_add_task__ll"
         android:maxLines="100"
         android:layout_margin="10dp"
         android:padding="10dp"

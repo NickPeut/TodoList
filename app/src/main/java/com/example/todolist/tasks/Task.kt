@@ -62,6 +62,7 @@ data class Task(
                 if (id != other.id) return false
                 if (name != other.name) return false
                 if (description != other.description) return false
+                if (isDone != other.isDone) return false
 
                 return true
         }

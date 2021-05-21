@@ -1,7 +1,6 @@
 package com.example.todolist.database
 
 import android.util.Log
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -28,12 +27,17 @@ class TaskService private constructor() : ITaskService {
     }
 
     override suspend fun findById(id: String): TaskED? {
-        val personRef = tasksCollection.document(id)
+        val taskRef = tasksCollection.document(id)
 
         return suspendCancellableCoroutine { coroutine ->
-            personRef.get()
+            taskRef.get()
                 .addOnSuccessListener {
-                    coroutine.resume(it.toObject(TaskED::class.java))
+                    val task = it.toObject(TaskED::class.java)
+                    if (task != null) {
+                        task.isDone = it.data!!["isDone"] as Boolean
+                    }
+                    coroutine.resume(task)
+
                 }
                 .addOnFailureListener {
                     coroutine.resumeWithException(
@@ -47,13 +51,18 @@ class TaskService private constructor() : ITaskService {
         return suspendCancellableCoroutine { coroutine ->
             tasksCollection.get()
                 .addOnSuccessListener {
-                    coroutine.resume(it.toObjects(TaskED::class.java))
+                    val task = it.toObjects(TaskED::class.java)
+                    for(i in task.indices) {
+                        task[i].isDone = it.documents[i]["isDone"] as Boolean
+                    }
+                    coroutine.resume(task)
                 }.addOnFailureListener {
                     coroutine.resumeWithException(
                         RuntimeException("Filed fetching tasks list", it)
                     )
                 }
         }
+
     }
 
     override suspend fun addTask(task: TaskED): TaskED {
@@ -63,7 +72,7 @@ class TaskService private constructor() : ITaskService {
                 .addOnFailureListener {
                     coroutine.resumeWithException(
                         RuntimeException(
-                            "Failure adding person with id: ${task.id}",
+                            "Failure adding task with id: ${task.id}",
                             it
                         )
                     )
@@ -71,7 +80,7 @@ class TaskService private constructor() : ITaskService {
                 .addOnSuccessListener {
                     Log.i(
                         this::class.java.name,
-                        "Successful adding person with email: ${task.id}"
+                        "Successful adding task with email: ${task.id}"
                     )
 
                     coroutine.resume(task)
@@ -80,14 +89,14 @@ class TaskService private constructor() : ITaskService {
     }
 
     override suspend fun updateTask(task: TaskED): TaskED {
-        val personRef = tasksCollection.document(task.id)
+        val taskRef = tasksCollection.document(task.id)
 
         return suspendCancellableCoroutine { coroutine ->
-            personRef.update(tasksToMap(task))
+            taskRef.update(tasksToMap(task))
                 .addOnFailureListener {
                     coroutine.resumeWithException(
                         RuntimeException(
-                            "Failure updating person with id: ${task.id}",
+                            "Failure updating task with id: ${task.id}",
                             it
                         )
                     )
@@ -99,17 +108,17 @@ class TaskService private constructor() : ITaskService {
     }
 
     override suspend fun deleteTaskById(id: String) {
-        val personRef = tasksCollection.document(id)
+        val taskRef = tasksCollection.document(id)
 
         return suspendCancellableCoroutine { coroutine ->
-            personRef.delete()
+            taskRef.delete()
                 .addOnSuccessListener {
                     coroutine.resume(Unit)
                 }
                 .addOnFailureListener {
                     coroutine.resumeWithException(
                         RuntimeException(
-                            "Failure deleting person with email: $id",
+                            "Failure deleting task with email: $id",
                             it
                         )
                     )
@@ -121,7 +130,8 @@ class TaskService private constructor() : ITaskService {
         return mapOf(
             "id" to task.id,
             "name" to task.name,
-            "description" to task.description
+            "description" to task.description,
+            "isDone" to task.isDone
         )
     }
 }

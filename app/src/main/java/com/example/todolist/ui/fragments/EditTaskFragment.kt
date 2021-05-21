@@ -15,7 +15,8 @@ import androidx.navigation.fragment.navArgs
 import com.example.todolist.R
 import com.example.todolist.database.TaskED
 import com.example.todolist.tasks.Task
-import com.example.todolist.viewModel.TaskHelper
+import com.example.todolist.helpers.TaskHelper
+import com.example.todolist.helpers.showCheck
 
 class EditTaskFragment : Fragment() {
     override fun onCreateView(
@@ -31,7 +32,9 @@ class EditTaskFragment : Fragment() {
     private lateinit var etName: EditText
     private lateinit var tvNameMove: TextView
     private lateinit var etDescription: EditText
+    private lateinit var ibCheck: ImageButton
     private var task: Task? = null
+    private var isDone = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val args: EditTaskFragmentArgs by navArgs()
@@ -40,19 +43,29 @@ class EditTaskFragment : Fragment() {
         tvNameMove.text = args.nameMove
         etName = view.findViewById(R.id.fragment_add_task__et_name)
         etDescription = view.findViewById(R.id.fragment_add_task__et_description)
+        ibCheck = view.findViewById(R.id.fragment_add_task__ib_check)
+
         task = args.task
         if (args.nameMove == getString(R.string.update)) {
             etName.setText(task?.name)
             etDescription.setText(task?.description)
+            isDone = task!!.isDone
         }
+        ibCheck.setImageResource(showCheck(isDone))
         taskHelper = ViewModelProvider(this).get(TaskHelper::class.java)
-        val btnSaveTask: ImageButton = view.findViewById(R.id.fragment_add_task__btn_save)
+        ibCheck.setOnClickListener(this::onClickCheck)
 
-        btnSaveTask.setOnClickListener(this::onClickAddTask)
+        val btnSaveTask: ImageButton = view.findViewById(R.id.fragment_add_task__btn_save)
+        btnSaveTask.setOnClickListener(this::onClickSaveTask)
+    }
+
+    private fun onClickCheck(view: View) {
+        isDone = ! isDone
+        ibCheck.setImageResource(showCheck(isDone))
     }
 
 
-    private fun onClickAddTask(view: View) {
+    private fun onClickSaveTask(view: View) {
         val name = etName.text.toString()
         val description = etDescription.text.toString()
         if (name == "") {
@@ -67,7 +80,7 @@ class EditTaskFragment : Fragment() {
                     id = id,
                     name = name,
                     description = description,
-                    isDone = false
+                    isDone = isDone
                 )
             } else {
                 getToastAboutFillAllFields()
@@ -78,7 +91,7 @@ class EditTaskFragment : Fragment() {
                 id = task!!.id,
                 name = name,
                 description = description,
-                isDone = task!!.isDone
+                isDone = isDone
             )
         }
         if (task == null) {

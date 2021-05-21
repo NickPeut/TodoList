@@ -7,13 +7,9 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.todolist.R
-import com.example.todolist.database.TaskED
-import com.example.todolist.ui.fragments.EditTaskFragmentDirections
-import com.example.todolist.viewModel.TaskHelper
+import com.example.todolist.helpers.showCheck
 
 class TasksAdapter(
     private var tasks: List<Task>,
@@ -37,7 +33,7 @@ class TasksAdapter(
 
     interface ListItemClickListener {
         fun onListItemClick(clickedItemIndex: Int)
-        fun onCheckItemClick(clickedItemIndex: Int)
+        //fun onCheckItemClick(task: Task)
     }
 
     override fun getItemCount(): Int {
@@ -52,23 +48,15 @@ class TasksAdapter(
 
         fun bind(task: Task) {
             tvName.text = task.name
-            if (task.isDone) {
-                isDone.setImageResource(R.drawable.ic_baseline_check_circle_outline_24)
-            } else {
-                isDone.setImageResource(R.drawable.ic_baseline_radio_button_unchecked_24)
-            }
-            isDone.setOnClickListener(
+            isDone.setImageResource(showCheck(task.isDone))
+            /*isDone.setOnClickListener(
                 View.OnClickListener {
-                    val clickedPosition = adapterPosition
-                    mOnClickListener.onCheckItemClick(clickedPosition)
                     task.isDone = !task.isDone
-                    if (task.isDone) {
-                        isDone.setImageResource(R.drawable.ic_baseline_check_circle_outline_24)
-                    } else {
-                        isDone.setImageResource(R.drawable.ic_baseline_radio_button_unchecked_24)
-                    }
+                    isDone.setImageResource(showCheck(task.isDone))
+                    mOnClickListener.onCheckItemClick(task)
                 }
             )
+            */
             cardView.setOnClickListener(
                 View.OnClickListener {
                     val clickedPosition = adapterPosition

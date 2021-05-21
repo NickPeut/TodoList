@@ -10,7 +10,7 @@ import org.junit.Test
 
 import org.junit.Assert.*
 
-class ApartmentServiceTest {
+class TaskServiceTest {
     private val taskService: ITaskService = TaskService.getInstance()
 
     @Test
@@ -31,12 +31,12 @@ class ApartmentServiceTest {
     @Test
     fun deletingShouldBeSuccessful() {
         runBlocking {
-            val apartment = createTestTask()
+            val task = createTestTask()
 
-            val addedPerson = taskService.addTask(apartment)
-            taskService.deleteTaskById(addedPerson.id)
+            val addedTask = taskService.addTask(task)
+            taskService.deleteTaskById(addedTask.id)
 
-            val gotTask = taskService.findById(addedPerson.id)
+            val gotTask = taskService.findById(addedTask.id)
 
             assertNull(gotTask)
         }
@@ -46,10 +46,11 @@ class ApartmentServiceTest {
     fun updatingShouldBeSuccessful() {
         runBlocking {
             val task = createTestTask()
-            val updatedTask = createUpdatedApartment(task)
+            val updatedTask = createUpdatedTask(task)
 
             val addedTask = taskService.addTask(task)
             taskService.updateTask(updatedTask)
+
             val gotTask = taskService.findById(task.id)
 
             assertEquals(gotTask, updatedTask)
@@ -65,21 +66,23 @@ class ApartmentServiceTest {
             println(listTasks)
         }
     }
+
+
     private fun createTestTask(): TaskED {
         return TaskED.Builder.createBuilder()
             .id("1")
             .name("cat")
             .description("meow")
-            .isDone(false)
+            .isDone(true)
             .build()
     }
 
-    private fun createUpdatedApartment(oldTask: TaskED): TaskED {
+    private fun createUpdatedTask(oldTask: TaskED): TaskED {
         return TaskED.Builder.createBuilder()
             .id(oldTask.id)
             .name(oldTask.name!!)
-            .description(oldTask.description!!)
-            .isDone(false)
+            .description("new description")
+            .isDone(!oldTask.isDone)
             .build()
     }
 }

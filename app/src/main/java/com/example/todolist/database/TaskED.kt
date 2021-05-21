@@ -43,7 +43,8 @@ class TaskED(
             return TaskED(
                 id,
                 name,
-                description
+                description,
+                isDone
             )
         }
     }

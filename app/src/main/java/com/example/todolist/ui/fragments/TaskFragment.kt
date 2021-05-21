@@ -12,11 +12,13 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.todolist.R
 import com.example.todolist.tasks.Task
-import com.example.todolist.viewModel.TaskHelper
+import com.example.todolist.helpers.TaskHelper
+import com.example.todolist.helpers.showCheck
 
 class TaskFragment : Fragment() {
     private lateinit var btnUpdateTask: ImageButton
     private lateinit var btnDeleteTask: ImageButton
+    private lateinit var btnCheck: ImageButton
     private lateinit var taskHelper: TaskHelper
     private lateinit var tvName: TextView
     private lateinit var tvDescription: TextView
@@ -34,15 +36,27 @@ class TaskFragment : Fragment() {
         val args: TaskFragmentArgs by navArgs()
         tvName = view.findViewById(R.id.fragment_task__tv_task_name)
         tvDescription = view.findViewById(R.id.fragment_task__tv_task_description)
+        btnUpdateTask = view.findViewById(R.id.fragment_task__btn_update)
+        btnDeleteTask = view.findViewById(R.id.fragment_task__btn_delete)
+        btnCheck = view.findViewById(R.id.fragment_task__ib_check)
+
         task = args.Task
         tvName.text = task.name
         tvDescription.text = task.description
-        btnUpdateTask = view.findViewById(R.id.fragment_task__btn_update)
-        btnDeleteTask = view.findViewById(R.id.fragment_task__btn_delete)
+        btnCheck.setImageResource(showCheck(task.isDone))
+
         taskHelper = ViewModelProvider(this).get(TaskHelper::class.java)
+
+        //btnCheck.setOnClickListener(this::onClickCheck)
         btnUpdateTask.setOnClickListener(this::onClickUpdateTask)
         btnDeleteTask.setOnClickListener(this::onClickDeleteTask)
     }
+
+    /*private fun onClickCheck(view: View) {
+        task.isDone = !task.isDone
+        btnCheck.setImageResource(showCheck(task.isDone))
+    }
+    */
 
     private fun onClickUpdateTask(view: View) {
         val action = TaskFragmentDirections.actionNavGrafTaskFragmentToNavGrafAddTaskFragment(task, getString(R.string.update))
