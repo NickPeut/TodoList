@@ -23,6 +23,8 @@ class TaskFragment : Fragment() {
     private lateinit var tvName: TextView
     private lateinit var tvDescription: TextView
     private lateinit var task: Task
+    private lateinit var btnBack: ImageButton
+
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -39,6 +41,7 @@ class TaskFragment : Fragment() {
         btnUpdateTask = view.findViewById(R.id.fragment_task__btn_update)
         btnDeleteTask = view.findViewById(R.id.fragment_task__btn_delete)
         btnCheck = view.findViewById(R.id.fragment_task__ib_check)
+        btnBack = view.findViewById(R.id.fragment_task__btn_back)
 
         task = args.Task
         tvName.text = task.name
@@ -46,7 +49,9 @@ class TaskFragment : Fragment() {
         btnCheck.setImageResource(showCheck(task.isDone))
 
         taskHelper = ViewModelProvider(this).get(TaskHelper::class.java)
-
+        btnBack.setOnClickListener {
+            findNavController().navigate(R.id.nav_graph__list_of_tasks_fragment)
+        }
         //btnCheck.setOnClickListener(this::onClickCheck)
         btnUpdateTask.setOnClickListener(this::onClickUpdateTask)
         btnDeleteTask.setOnClickListener(this::onClickDeleteTask)

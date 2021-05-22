@@ -96,7 +96,10 @@ class EditTaskFragment : Fragment() {
         }
         if (task == null) {
             taskHelper.addTask(taskED)
-            findNavController().navigate(R.id.nav_graph__list_of_tasks_fragment)
+            val action = EditTaskFragmentDirections.actionNavGrafAddTaskFragmentToNavGrafTaskFragment(
+                Task(taskED.id, taskED.name, taskED.description, taskED.isDone)
+            )
+            findNavController().navigate(action)
         } else {
             taskHelper.updateTask(taskED)
             val action = EditTaskFragmentDirections.actionNavGrafAddTaskFragmentToNavGrafTaskFragment(
