@@ -57,12 +57,25 @@ class EditTaskFragment : Fragment() {
 
         val btnSaveTask: ImageButton = view.findViewById(R.id.fragment_add_task__btn_save)
         btnSaveTask.setOnClickListener(this::onClickSaveTask)
+
+        val btnBack: ImageButton = view.findViewById(R.id.fragment_add_task__btn_back)
+        btnBack.setOnClickListener {
+            if(args.nameMove == getString(R.string.update)) {
+                val action = EditTaskFragmentDirections.actionNavGrafAddTaskFragmentToNavGrafTaskFragment(
+                    task!!
+                )
+                findNavController().navigate(action)
+            } else {
+                findNavController().navigate(R.id.nav_graph__list_of_tasks_fragment)
+            }
+        }
     }
 
     private fun onClickCheck(view: View) {
         isDone = ! isDone
         ibCheck.setImageResource(showCheck(isDone))
     }
+
 
 
     private fun onClickSaveTask(view: View) {
